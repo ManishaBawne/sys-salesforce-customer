@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+
+	<file:config name="File_Config" doc:name="File Config" doc:id="e4d216b9-4a39-4bd3-9204-87b49372698b" >
+		<file:connection workingDir="E:\Documents" />
+	</file:config>
+	<sub-flow name="create-customerSub_Flow" doc:id="931fbdd8-7da6-4e43-9838-e4e754950775" >
+		<logger level="INFO" doc:name="create customer in Salesforce" doc:id="87b7877b-942f-4a41-94b5-a99ef12b4340" message="create customer in Salesforce"/>
+		<ee:transform doc:name="Transform Message" doc:id="58a1656c-f01e-41da-a077-3485873e5267">
+			<ee:message>
+				<ee:set-payload><![CDATA[[
+	{
+		Name : payload.firstName,
+		FirstName__c : payload.firstName,
+		LastName__c : payload.lastName,
+		Occupation__c : payload.occupation,
+		Age__c : payload.age,
+        Contact__c : payload.contact,
+        Country__c : payload.address.country,
+        City__c : payload.address.city,
+        State__c : payload.address.state,
+        Street__c : payload.address.street 
+	}
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:create doc:name="Create" doc:id="1eefd4ec-7134-4e6d-a5ed-d384d23886e6" config-ref="Salesforce_Config" type="Customer">
+		</salesforce:create>
+		<ee:transform doc:name="Transform Message" doc:id="27c0db48-40fe-4e7a-be3d-e394300626de" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    message : if(payload.successful== true)  "customer created successfully with id " ++ (payload.items.id joinBy  "_" )   else "customer not created"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="update-customerSub_Flow" doc:id="24a99f5f-805f-45c0-a116-2c0d16ce8dc1" >
+		<logger level="INFO" doc:name="update customer in Salesforce" doc:id="212f2c31-fc04-4649-b1b5-82d2f7e562e9" message="update customer in Salesforce"/>
+		<ee:transform doc:name="Transform Message" doc:id="682a7063-17ec-41cf-bf39-182d17c3218d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+[
+	{   
+		Id : vars.customerId,
+		Name : payload.firstName,
+		FirstName__c : payload.firstName,
+		LastName__c : payload.lastName,
+		Occupation__c : payload.occupation,
+		Age__c : payload.age,
+        Contact__c : payload.contact,
+        Country__c : payload.address.country,
+        City__c : payload.address.city,
+        State__c : payload.address.state,
+        Street__c : payload.address.street 
+	}
+]]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<salesforce:update doc:name="Update" doc:id="f3acd8a1-0234-4662-a296-1814fe7df329" config-ref="Salesforce_Config" type="Customer" />
+		<ee:transform doc:name="Transform Message" doc:id="72c2271a-3bde-4b63-b40c-a8ae64d14df1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+    message : if(payload.successful== true)  "customer updated successfully " else "customer not updated"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+	<sub-flow name="getCustomer" doc:id="e26ac21a-36a9-43f7-ae96-8b2bff33bee9" >
+		<salesforce:query doc:name="Query" doc:id="c6912cd0-d422-452a-96d3-0bfe3bac7ac3" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[SELECT Age__c,City__c,Contact__c,Country__c,FirstName__c,Id,LastName__c,Occupation__c,State__c,Street__c FROM Customer 
+where Id = ':cId']]></salesforce:salesforce-query>
+			<salesforce:parameters ><![CDATA[#[{
+	"cId" : vars.customerId as String
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<file:write doc:name="Write" doc:id="36348a21-16e2-40ca-b449-058d054a7827" config-ref="File_Config" path="/output/customer.csv">
+			<file:content ><![CDATA[#[%dw 2.0
+output application/csv
+---
+payload map ((item, index) ->
+{
+    customerId : item.Id,
+    firstName: item.FirstName__c,
+    lastName: item.LastName__c,
+    contact: item.Contact__c,
+    age: item.Age__c,
+    occupation: item.Occupation__c,
+    street: item.Street__c,
+    city: item.City__c,
+    state: item.State__c,
+    country: item.Country__c
+} )]]]></file:content>
+		</file:write>
+		<ee:transform doc:name="Transform Message" doc:id="a3713161-fc8d-435d-b070-b5ae293309ec" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "customerId" : payload.Id[0],
+  "firstName": payload.FirstName__c[0], 
+  "lastName" : payload.LastName__c[0] ,
+  "contact" : payload.Contact__c[0], 
+  "age" : payload.Age__c[0], 
+  "occupation" : payload.Occupation__c[0] , 
+  "address": {
+                    "street":payload.Street__c[0],
+                    "city":payload.City__c[0],
+                    "state":payload.State__c[0],
+                    "country":payload.Country__c[0]
+            }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="59a3835a-7a26-4aec-9240-2e05a804449f" message="#[payload]" />
+	</sub-flow>
+	<sub-flow name="deleteCustomer" doc:id="21a25d39-ea11-401a-a1d5-24bc5f5b6d7e" >
+		<salesforce:delete doc:name="Delete" doc:id="4d521125-010a-46e5-879e-ca84c1b42677" config-ref="Salesforce_Config">
+			<salesforce:ids ><![CDATA[#[%dw 2.0
+output application/java
+---
+[vars.customerId]]]]></salesforce:ids>
+		</salesforce:delete>
+		<ee:transform doc:name="Transform Message" doc:id="617be461-f902-46d5-849f-3d045d250571" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message":  if(payload.successful== true)  "Deleted successfully " else "customer not deleted or not present"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

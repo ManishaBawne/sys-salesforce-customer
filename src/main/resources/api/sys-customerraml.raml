@@ -1,0 +1,36 @@
+#%RAML 1.0
+title: sys-customer.raml
+
+/customer:
+  post:
+    description: This api is used to create new customer
+    body:
+      application/json:
+     #   type: !include..dataType/newCustomerRequest.raml        
+        example: !include example/newCustomerRequest.json
+          
+        
+  /{customerId}:
+    get:
+      responses:
+        200: 
+          body:
+            application/json:
+              example: !include example/customerResponse.json
+              
+    put:
+      body:
+        application/json:
+          example: !include example/newCustomerRequest.json
+      responses:
+            200:  
+              body:
+                  application/json:
+                      example: {"message" : "updated successfully"}
+                        
+    delete:      
+      responses:
+            200:  
+              body:
+                  application/json:
+                      example: {"message" : "deleted successfully"}

@@ -1,0 +1,14 @@
+{
+  "customerId" : "1",
+  "firstName": "Manisha", 
+  "lastName" : "Deshmukh" ,
+  "contact" : "8945612352", 
+  "age" : 21, 
+  "occupation" : "Application Developer" , 
+  "address": {
+                    "street":"Market Street",
+                    "city":"Pune",
+                    "state":"Maharastra",
+                    "country":"India"
+            }
+}

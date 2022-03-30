@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "f9628d39-7d69-4819-990b-986804884f13",
+		"name": "Customer sys API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Local",
+			"item": [
+				{
+					"name": "Update customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\" : \"1\",\r\n  \"firstName\": \"ABC\", \r\n  \"lastName\" : \"PQR\" ,\r\n  \"contact\" : \"8945612352\", \r\n  \"age\" : 21, \r\n  \"occupation\" : \"Developer\" , \r\n  \"address\": {\r\n                    \"street\":\"Market Street\",\r\n                    \"city\":\"Pune\",\r\n                    \"state\":\"Maharastra\",\r\n                    \"country\":\"India\"\r\n            }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/customer/0o65j000000fxfeAAA",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customer",
+								"0o65j000000fxfeAAA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCustomer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/customer/0o65j000000fxg3AAA",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customer",
+								"0o65j000000fxg3AAA"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "453",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCustomer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/api/customer/0o65j000000fxfZAAQ",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customer",
+								"0o65j000000fxfZAAQ"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "453",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCustomer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\" : \"1\",\r\n  \"firstName\": \"ANIL1\", \r\n  \"lastName\" : \"Deshmukh\" ,\r\n  \"contact\" : \"8945612352\", \r\n  \"age\" : 21, \r\n  \"occupation\" : \"Application Developer\" , \r\n  \"address\": {\r\n                    \"street\":\"Market Street\",\r\n                    \"city\":\"Pune\",\r\n                    \"state\":\"Maharastra\",\r\n                    \"country\":\"India\"\r\n            }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/customer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customer"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "453",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DEV",
+			"item": [
+				{
+					"name": "Update customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\" : \"1\",\r\n  \"firstName\": \"ABC\", \r\n  \"lastName\" : \"PQR\" ,\r\n  \"contact\" : \"8945612352\", \r\n  \"age\" : 21, \r\n  \"occupation\" : \"Developer\" , \r\n  \"address\": {\r\n                    \"street\":\"Market Street\",\r\n                    \"city\":\"Pune\",\r\n                    \"state\":\"Maharastra\",\r\n                    \"country\":\"India\"\r\n            }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://sfdc-customer1.us-e2.cloudhub.io/api/customer/0o65j000000fxfeAAA",
+							"protocol": "http",
+							"host": [
+								"sfdc-customer1",
+								"us-e2",
+								"cloudhub",
+								"io"
+							],
+							"path": [
+								"api",
+								"customer",
+								"0o65j000000fxfeAAA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCustomer",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "client_id",
+								"value": "b4cd9544533d4f418c1ea2d2a7536802",
+								"type": "text"
+							},
+							{
+								"key": "client_secret",
+								"value": "09349A7b17294802b1410E3D9F552B37",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://sfdc-customer1.us-e2.cloudhub.io:8081/api/customer/0o65j000000fxg3AAA",
+							"protocol": "http",
+							"host": [
+								"sfdc-customer1",
+								"us-e2",
+								"cloudhub",
+								"io"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customer",
+								"0o65j000000fxg3AAA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCustomer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://sfdc-customer1.us-e2.cloudhub.io:8081/api/customer/0o65j000000fxfZAAQ?client_id=b4cd9544533d4f418c1ea2d2a7536802&client_secret=09349A7b17294802b1410E3D9F552B37",
+							"protocol": "http",
+							"host": [
+								"sfdc-customer1",
+								"us-e2",
+								"cloudhub",
+								"io"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customer",
+								"0o65j000000fxfZAAQ"
+							],
+							"query": [
+								{
+									"key": "client_id",
+									"value": "b4cd9544533d4f418c1ea2d2a7536802"
+								},
+								{
+									"key": "client_secret",
+									"value": "09349A7b17294802b1410E3D9F552B37"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCustomer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "client_id",
+								"value": "b4cd9544533d4f418c1ea2d2a7536802",
+								"type": "text"
+							},
+							{
+								"key": "client_secret",
+								"value": "09349A7b17294802b1410E3D9F552B37",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerId\" : \"1\",\r\n  \"firstName\": \"ANIL1\", \r\n  \"lastName\" : \"Deshmukh\" ,\r\n  \"contact\" : \"8945612352\", \r\n  \"age\" : 21, \r\n  \"occupation\" : \"Application Developer\" , \r\n  \"address\": {\r\n                    \"street\":\"Market Street\",\r\n                    \"city\":\"Pune\",\r\n                    \"state\":\"Maharastra\",\r\n                    \"country\":\"India\"\r\n            }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://sfdc-customer1.us-e2.cloudhub.io:8081/api/customer",
+							"protocol": "http",
+							"host": [
+								"sfdc-customer1",
+								"us-e2",
+								"cloudhub",
+								"io"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customer"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "453",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

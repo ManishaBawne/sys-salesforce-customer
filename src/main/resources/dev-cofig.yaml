@@ -1,0 +1,20 @@
+api:
+  host: "localhost"
+  port: "8081"
+  protocol: "HTTP"
+  timeout: "30000"
+
+  
+salesforce:
+  userName:  "manisha.deshmukh@caeliusconsulting.com"
+  password: "change it"
+  authURL: "https://caelius6-dev-ed.my.salesforce.com/services/Soap/u/54.0"
+  token: "XsBhvEpSRDMUKWHuTmFLZM6v"  
+
+email:
+  host: "pop.gmail.com"
+  port: "995"
+  userName: "manisha.deshmukh@caeliusconsulting.com"
+  pass: "change it"
+  from: ""
+  to: ""  
